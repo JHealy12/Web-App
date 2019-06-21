@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" href="css/themes/TrainApp.css" />
+	<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" /> 
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> 
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+
+	
+	<script type="text/javascript" src="js/maps.js"></script>
+	<script type="text/javascript" src="js/geocode.js"></script>
+	<script type="text/javascript" src="js/RailApp.js"></script>
+	<script type="text/javascript" src="js/jgFeed2.js"></script>
+	<script type="text/javascript" src="js/stationlist.js"></script>
+
+    <script type="text/javascript" src="js/ticketData.js"></script>
+    <script type="text/javascript" src="js/ticketTable.js"></script>
+	<script type="text/javascript" src="js/ticketForm.js"></script>
+	
+</head>
+<body>
+
+<div data-role="page" id="home"> <!-- The Home Page -->
+	<div data-role="header">
+		<h1>Home Page</h1>
+	</div>
+	<div data-role="content">
+		<ul data-role="listview" data-inset="true">
+			<li><a href="#journeyplan" data-transition="fade">Plan A Journey</a></li>
+			<li><a href="#liveUpdate" data-transition="fade">Check Live Updates</a></li>
+			<li><a href="#findStation" data-transition="fade">Nearby Stations</a></li>
+			<li><a href="#tickets" data-transition="fade">Tickets</a></li>
+		</ul>
+	</div>
+ 
+	<div data-role="footer" data-position="fixed">
+		<h4>Home page footer.</h4>
+	</div>
+</div>
+
+<div data-role="page" id="journeyplan"> <!-- Plan Journey Page -->
+	<div data-role="panel" id="contentnav">
+		<ul data-role="listview" data-inset="true">
+			<li><a href="#home" data-transition="fade">Home</a></li>
+			<li><a href="#journeyplan" data-transition="fade">Plan A Journey</a></li>
+			<li><a href="#liveUpdate" data-transition="fade">Check Live Updates</a></li>
+			<li><a href="#findStation" data-transition="fade">Nearby Stations</a></li>
+			<li><a href="#tickets" data-transition="fade">Tickets</a></li>
+		</ul>
+
+		<div data-role="collapsible">
+			<h1>Rail Assistant</h1>
+				<h3>Heading</h3>
+					<p>Info here.</p>
+		</div>
+	</div>
+	
+    <div data-role="header">
+        <h1>Plan A Journey</h1>
+		<a href="#" data-rel="back" dataicon="back" data-transition="fade">Back</a>
+	</div>
+ 
+	<div data-role="content">
+		<label>Date of Journey: </label>
+			<input id="date" type="date"/>
+
+        <label>Time of Journey: </label>
+			<input id="time" type="time"/>
+
+			<label>Departing Destination: </label>
+				<form>
+					<input type="text" data-type="search" class="filter-box" placeholder="Enter Departing Station" id="from-box">
+					<div class='filterable_list'>
+						<ul id="from-list" data-theme='b' data-role='listview' data-inset='true' data-filter='true' data-input="#from-box">
+						</ul>
+					</div>
+				</form>
+
+            <label>Arriving Destination: </label>
+				<form>
+					<input type="text" data-type="search" class="filter-box" placeholder="Arriving To..." id="to-box">
+					<div class='filterable_list'>
+						<ul id="to-list" data-theme='b' data-role='listview' data-inset='true' data-filter='true' data-input="#to-box">
+						</ul>
+					</div>
+				</form>
+
+		<ul id ="listTime" data-role="listview" data-inset="true">
+		</ul>
+		
+		<div data-role="popup" id="ticketsave"> <!-- The Ticket Saving System -->
+    <form>
+	<table>
+        <tr>
+            <td><span>Date of Journey:</span>
+			</td><td><input type="date" id="date"/></td>
+        </tr>
+        <tr>
+            <td><span>Time of Journey:</span></td>
+			<td><input type="time" id="time"/></td>
+        </tr>
+		<tr>
+            <td><span>Station Departutre:</span></td>
+			<td><input type="text" size="20" id="depart" /></td>
+        </tr>
+		<tr>
+            <td><span>Station Arrival:</span></td>
+			<td><input type="text" size="20" id="arrive" /></td>
+        </tr>
+		<tr>
+            <td><span>Ticket Type:</span></td>
+			<td>
+			<select id="ticketType">
+				<option>Single</option>
+				<option>Return</option>
+			</select>
+			</td>
+        </tr>
+		<tr>
+            <td colspan="2"><span>Adult:</span>
+			<select id="adult">
+				<option>0</option>
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+				<option>6</option>
+				<option>7</option>
+				<option>8</option>
+				<option>9</option>
+				<option>10</option>
+			</select>
+            <span>Child:</span>
+			<select id="child">
+				<option>0</option>
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+				<option>6</option>
+				<option>7</option>
+				<option>8</option>
+				<option>9</option>
+				<option>10</option>
+			</select>
+			</td>
+        </tr>
+    </table>
+		<button id="save">Save Ticket</button>
+		<button id="cancel">Cancel Process</button>
+	</form>
+		</div>
+    </div>
+	
+	<div data-role="footer" data-position="fixed">
+		<div data-role="navbar">
+			<ul>
+				<li><a id="timetable" href="#">View Timetable</a></li>
+				<li><a id="savedticket" data-rel="popup" href="#ticketsave">Save A Ticket</a></li>
+				<li><a id="nav" href="#contentnav">Content</a></li>
+			</ul>
+		</div>
+		<h4>Journey Page footer.</h4>
+	</div>
+</div>
+
+<div data-role="page" id="liveUpdate"> <!-- Live Departure Updates -->
+	<div data-role="panel" id="contentnav">
+		<ul data-role="listview" data-inset="true">
+			<li><a href="#home" data-transition="fade">Home</a></li>
+			<li><a href="#journeyplan" data-transition="fade">Plan A Journey</a></li>
+			<li><a href="#liveUpdate" data-transition="fade">Check Live Updates</a></li>
+			<li><a href="#findStation" data-transition="fade">Nearby Stations</a></li>
+			<li><a href="#tickets" data-transition="fade">Tickets</a></li>
+		</ul>
+
+		<div data-role="collapsible">
+			<h1>Rail Assistant</h1>
+				<h3>Heading</h3>
+					<p>Info here.</p>
+		</div>
+	</div>
+	
+	<div data-role="header">
+        <h1>Live Updates</h1>
+        <a href="#" data-rel="back" dataicon="back" data-transition="fade">Back</a>
+    </div>
+    <div data-role="content">
+        <ul id="list" data-role="listview" data-inset="true">
+            <li></li>
+        </ul>
+    </div>
+	<div data-role="footer" data-position="fixed">
+		<div data-role="navbar">
+			<ul>
+				<li><a id="nav" href="#contentnav">Content</a></li>
+			</ul>
+		</div>
+		<h4>Journey Page footer.</h4>
+	</div>
+</div>
+
+<div id="findStation" data-role="page"> <!-- Station Locate -->
+	<div data-role="panel" id="contentnav">
+		<ul data-role="listview" data-inset="true">
+			<li><a href="#home" data-transition="fade">Home</a></li>
+			<li><a href="#journeyplan" data-transition="fade">Plan A Journey</a></li>
+			<li><a href="#liveUpdate" data-transition="fade">Check Live Updates</a></li>
+			<li><a href="#findStation" data-transition="fade">Nearby Stations</a></li>
+			<li><a href="#tickets" data-transition="fade">Tickets</a></li>
+		</ul>
+
+		<div data-role="collapsible">
+			<h1>Rail Assistant</h1>
+				<h3>Heading</h3>
+					<p>Info here.</p>
+		</div>
+	</div>
+	
+	<div data-role="header" data-position="fixed">
+		<h1>Local Station and Maps</h1>
+		<a href="#" data-rel="back" dataicon="back" data-transition="fade">Back</a>
+	</div>
+	<div data-role="content">
+		<div id="map" width="100%"></div>
+	</div>
+	<div data-role="footer" data-position="fixed">
+		<div data-role="navbar">
+			<ul>
+				<li><a id="nav" href="#contentnav">Content</a></li>
+			</ul>
+		</div>
+		<h4>Journey Page footer.</h4>
+	</div>
+</div>
+
+<div id="tickets" data-role="page"> <!-- Ticket Page -->
+	<div data-role="panel" id="contentnav">
+		<ul data-role="listview" data-inset="true">
+			<li><a href="#home" data-transition="fade">Home</a></li>
+			<li><a href="#journeyplan" data-transition="fade">Plan A Journey</a></li>
+			<li><a href="#liveUpdate" data-transition="fade">Check Live Updates</a></li>
+			<li><a href="#findStation" data-transition="fade">Nearby Stations</a></li>
+			<li><a href="#tickets" data-transition="fade">Tickets</a></li>
+		</ul>
+
+		<div data-role="collapsible">
+			<h1>Rail Assistant</h1>
+				<h3>Heading</h3>
+					<p>Info here.</p>
+		</div>
+	</div>
+	
+	<div data-role="content">
+		<div id="ticketTable"></div>
+			<button id="removeExpired">Remove Expired</button>
+	</div>
+	
+	<div data-role="header" data-position="fixed">
+		<a href="#" data-rel="back" dataicon="back" data-transition="fade">Back</a>
+		<h1>Your Saved Tickets</h1>
+	</div>
+	<div data-role="content">
+		<div id="table"></div>
+	</div>
+	<div data-role="footer" data-position="fixed">
+		<div data-role="navbar">
+			<ul>
+				<li><a id="nav" href="#contentnav">Content</a></li>
+			</ul>
+		</div>
+		<h4>Journey Page footer.</h4>
+	</div>
+</div>
+</body>
+</html>
